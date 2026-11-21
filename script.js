@@ -3,7 +3,7 @@
  * Vanilla JS Modular Architecture (Zero External Framework Dependencies)
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
     const htmlEl = document.documentElement;
     const themeToggleBtn = document.getElementById('themeToggleBtn');
 
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal Disclaimer
     const disclaimerModal = document.getElementById('disclaimerModal');
-    const acceptDisclaimerBtn = document.getElementById('acceptDisclaimerBtn');
     const openDisclaimerTriggers = [
         document.getElementById('openDisclaimerBtn'),
         document.getElementById('headerDisclaimerBtn'),
@@ -34,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentFilter = 'all';
     let currentSearchQuery = '';
+    window.__rw032DisclaimerAccepted = false;
 
-    // Helper aman untuk storage (menghindari error di mode privat/restricted)
     const storage = {
         get(key) {
             try {
@@ -47,24 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
         set(key, value) {
             try {
                 window.localStorage.setItem(key, value);
-            } catch (_) {
-                // Abaikan jika penyimpanan diblokir peramban
-            }
+            } catch (_) {}
         }
     };
 
-    // Render ikon Lucide secara aman tanpa menghentikan event listener
     const renderIcons = () => {
         try {
             if (window.lucide && typeof window.lucide.createIcons === 'function') {
                 window.lucide.createIcons();
             }
-        } catch (err) {
-            console.warn('Lucide icons gagal dirender:', err);
-        }
+        } catch (_) {}
     };
-
-    renderIcons();
 
     /* ======================================================================
        A. THEME SWITCHER
@@ -89,38 +81,66 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
 
     /* ======================================================================
-       B. DISCLAIMER MODAL MANAGEMENT
+       B. DISCLAIMER MODAL MANAGEMENT (DIJAMIN TERBUKA & TERTUTUP)
        ====================================================================== */
-    const isDisclaimerAccepted = () => storage.get('rw032_disclaimer_accepted') === 'true';
+    const isDisclaimerAccepted = () => {
+        return window.__rw032DisclaimerAccepted || storage.get('rw032_disclaimer_accepted') === 'true';
+    };
+
+    const closeMobileDrawer = () => {
+        appSidebar?.classList.remove('open');
+        drawerOverlay?.classList.remove('show');
+    };
 
     const openModal = () => {
         if (!disclaimerModal) return;
+        closeMobileDrawer();
+        disclaimerModal.style.display = 'flex';
         disclaimerModal.classList.add('show');
         document.body.classList.add('modal-open');
-        closeMobileDrawer();
+        document.body.style.overflow = 'hidden';
     };
 
     const closeModal = () => {
-        if (!disclaimerModal) return;
-        disclaimerModal.classList.remove('show');
+        window.__rw032DisclaimerAccepted = true;
+        storage.set('rw032_disclaimer_accepted', 'true');
+        if (disclaimerModal) {
+            disclaimerModal.classList.remove('show');
+            disclaimerModal.style.display = 'none';
+        }
         document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
     };
 
     if (!isDisclaimerAccepted()) {
         openModal();
+    } else if (disclaimerModal) {
+        disclaimerModal.classList.remove('show');
+        disclaimerModal.style.display = 'none';
     }
 
-    // Event delegation pada dokumen agar klik pada tombol maupun SVG/teks di dalamnya selalu terbaca
-    document.addEventListener('click', (e) => {
-        const acceptTarget = e.target.closest('#acceptDisclaimerBtn');
-        if (acceptTarget) {
-            e.preventDefault();
-            e.stopPropagation();
-            storage.set('rw032_disclaimer_accepted', 'true');
-            closeModal();
+    const handleAcceptClick = (event) => {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
         }
-    });
+        closeModal();
+    };
+
+    const directAcceptBtn = document.getElementById('acceptDisclaimerBtn');
+    if (directAcceptBtn) {
+        directAcceptBtn.onclick = handleAcceptClick;
+        directAcceptBtn.addEventListener('click', handleAcceptClick, true);
+        directAcceptBtn.addEventListener('touchend', handleAcceptClick, { passive: false });
+    }
+
+    document.addEventListener('click', (e) => {
+        const btn = e.target && e.target.closest ? e.target.closest('#acceptDisclaimerBtn') : null;
+        if (btn) {
+            handleAcceptClick(e);
+        }
+    }, true);
 
     openDisclaimerTriggers.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -138,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeMobileDrawer();
-            if (disclaimerModal?.classList.contains('show') && isDisclaimerAccepted()) {
+            if (disclaimerModal?.classList.contains('show')) {
                 closeModal();
             }
         }
@@ -153,18 +173,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('modal-open');
     };
 
-    const closeMobileDrawer = () => {
-        appSidebar?.classList.remove('open');
-        drawerOverlay?.classList.remove('show');
+    drawerOpenBtn?.addEventListener('click', openMobileDrawer);
+    drawerCloseBtn?.addEventListener('click', () => {
+        closeMobileDrawer();
         if (!disclaimerModal?.classList.contains('show')) {
             document.body.classList.remove('modal-open');
             document.body.style.overflow = '';
         }
-    };
-
-    drawerOpenBtn?.addEventListener('click', openMobileDrawer);
-    drawerCloseBtn?.addEventListener('click', closeMobileDrawer);
-    drawerOverlay?.addEventListener('click', closeMobileDrawer);
+    });
+    drawerOverlay?.addEventListener('click', () => {
+        closeMobileDrawer();
+        if (!disclaimerModal?.classList.contains('show')) {
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+        }
+    });
 
     sidebarCollapseBtn?.addEventListener('click', () => {
         appSidebar?.classList.toggle('collapsed');
@@ -263,4 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => searchInput?.focus(), 300);
     });
-});
+
+    renderIcons();
+})();
