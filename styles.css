@@ -2,26 +2,20 @@
    1. DESIGN TOKENS & THEME-ADAPTIVE COLOR SYSTEM (CIVIC TEAL & AMBER)
    ========================================================================== */
 :root {
-    /* Typography */
     --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-    /* Fluid Typography Scale (clamp) */
     --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
     --text-sm: clamp(0.84rem, 0.81rem + 0.18vw, 0.925rem);
     --text-base: clamp(0.95rem, 0.92rem + 0.2vw, 1.025rem);
     --text-lg: clamp(1.1rem, 1.04rem + 0.35vw, 1.25rem);
     --text-xl: clamp(1.25rem, 1.15rem + 0.6vw, 1.55rem);
-    --text-2xl: clamp(1.45rem, 1.3rem + 0.9vw, 1.95rem);
 
-    /* Fluid Spacing & Layout */
-    --space-xs: clamp(0.375rem, 0.32rem + 0.25vw, 0.5rem);
     --space-sm: clamp(0.625rem, 0.55rem + 0.35vw, 0.875rem);
     --space-md: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);
     --space-lg: clamp(1.25rem, 1.1rem + 0.85vw, 2rem);
     --space-xl: clamp(1.75rem, 1.5rem + 1.2vw, 2.75rem);
 
-    /* Radii & Transitions */
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 22px;
@@ -31,7 +25,6 @@
     --sidebar-collapsed: 84px;
     --header-height: 72px;
 
-    /* Domain Semantic Accents (WCAG AA Compliant) */
     --accent-teal: hsl(173, 72%, 44%);
     --accent-amber: hsl(34, 94%, 52%);
     --accent-sky: hsl(199, 89%, 48%);
@@ -41,13 +34,12 @@
     --accent-red: hsl(0, 84%, 60%);
 }
 
-/* DARK THEME (Default - Modern Slate Navy & Civic Teal) */
 [data-theme="dark"] {
     --bg-app: hsl(222, 47%, 7%);
     --bg-surface: hsl(222, 40%, 11%);
     --bg-surface-elevated: hsl(221, 36%, 15%);
     --bg-glass: hsla(222, 47%, 9%, 0.82);
-    
+
     --primary: hsl(173, 72%, 44%);
     --primary-hover: hsl(173, 72%, 50%);
     --primary-soft: hsla(173, 72%, 44%, 0.14);
@@ -65,7 +57,6 @@
     --shadow-float: 0 16px 40px -8px hsla(222, 60%, 2%, 0.75);
 }
 
-/* LIGHT THEME (Clean Civic Daylight & Deep Emerald Teal) */
 [data-theme="light"] {
     --bg-app: hsl(210, 33%, 97%);
     --bg-surface: hsl(0, 0%, 100%);
@@ -114,6 +105,10 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 h1, h2, h3, h4 {
     font-family: var(--font-display);
     line-height: 1.25;
@@ -129,13 +124,13 @@ button {
     background: none;
     border: none;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -146,7 +141,7 @@ button {
 }
 
 /* ==========================================================================
-   3. APP SHELL LAYOUT (MOBILE-FIRST -> DESKTOP SIDEBAR)
+   3. APP SHELL LAYOUT
    ========================================================================== */
 .app-shell {
     display: flex;
@@ -159,11 +154,10 @@ button {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* Mencegah grid overflow */
+    min-width: 0;
     padding-bottom: calc(82px + env(safe-area-inset-bottom));
 }
 
-/* Sidebar (Mobile Off-Canvas Drawer Default) */
 .app-sidebar {
     position: fixed;
     inset: 0 auto 0 0;
@@ -323,7 +317,7 @@ button {
 }
 
 /* ==========================================================================
-   4. STICKY HEADER & INTERACTIVE CONTROLS (44px TOUCH TARGETS)
+   4. STICKY HEADER & INTERACTIVE CONTROLS
    ========================================================================== */
 .app-header {
     position: sticky;
@@ -392,13 +386,11 @@ button {
     transform: scale(0.94);
 }
 
-/* Theme Icon Toggle Logic */
 [data-theme="dark"] .icon-sun { display: block; }
 [data-theme="dark"] .icon-moon { display: none; }
 [data-theme="light"] .icon-sun { display: none; }
 [data-theme="light"] .icon-moon { display: block; }
 
-/* Search Input */
 .search-box {
     position: relative;
     display: flex;
@@ -459,7 +451,6 @@ button {
     gap: var(--space-lg);
 }
 
-/* Hero Summary Banner */
 .hero-summary {
     background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-surface-elevated) 100%);
     border: 1px solid var(--border-subtle);
@@ -522,7 +513,6 @@ button {
     color: var(--text-muted);
 }
 
-/* Filter Chips */
 .filter-bar {
     display: flex;
     gap: 0.5rem;
@@ -554,7 +544,6 @@ button {
     border-color: var(--primary);
 }
 
-/* Directory Grid */
 .directory-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -647,7 +636,6 @@ button {
     padding-top: 0.85rem;
 }
 
-/* Submenu Links */
 .dir-links {
     list-style: none;
     display: flex;
@@ -690,7 +678,6 @@ button {
     flex-shrink: 0;
 }
 
-/* RT 01 - 06 Grid Pills */
 .rt-grid-links {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -718,7 +705,6 @@ button {
     color: var(--card-accent);
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
     padding: var(--space-xl) var(--space-md);
@@ -743,7 +729,7 @@ button {
 }
 
 /* ==========================================================================
-   6. MOBILE BOTTOM NAVIGATION BAR (ERGONOMIC SAFE AREA)
+   6. MOBILE BOTTOM NAVIGATION BAR
    ========================================================================== */
 .mobile-bottom-nav {
     position: fixed;
@@ -788,24 +774,22 @@ button {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 1200;
     background: rgba(2, 6, 23, 0.85);
     backdrop-filter: blur(8px);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: var(--space-sm);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-overlay.show {
-    opacity: 1;
-    visibility: visible;
+    display: flex;
 }
 
 .modal-container {
+    position: relative;
+    z-index: 1201;
     width: 100%;
     max-width: 860px;
     max-height: 90dvh;
@@ -842,6 +826,7 @@ button {
 .modal-body {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: var(--space-lg);
     display: flex;
     flex-direction: column;
@@ -1001,12 +986,14 @@ button {
 }
 
 .modal-footer {
+    position: relative;
+    z-index: 1202;
     padding: var(--space-md) var(--space-lg);
     border-top: 1px solid var(--border-subtle);
     background: var(--bg-surface);
+    flex-shrink: 0;
 }
 
-/* Badges & Buttons */
 .badge-pill {
     display: inline-flex;
     align-items: center;
@@ -1057,6 +1044,7 @@ button {
     justify-content: center;
     gap: 0.5rem;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -1094,7 +1082,7 @@ button {
 }
 
 /* ==========================================================================
-   8. RESPONSIVE BREAKPOINTS (TABLET & DESKTOP ≥ 768px / ≥ 1100px)
+   8. RESPONSIVE BREAKPOINTS
    ========================================================================== */
 .desktop-only { display: none; }
 
@@ -1115,7 +1103,6 @@ button {
         flex-shrink: 0;
     }
 
-    /* Sidebar Collapsed State */
     .app-sidebar.collapsed {
         width: var(--sidebar-collapsed);
     }
@@ -1123,17 +1110,14 @@ button {
     .app-sidebar.collapsed .brand-text,
     .app-sidebar.collapsed .nav-item span,
     .app-sidebar.collapsed .nav-group-label,
-    .app-sidebar.collapsed .sidebar-footer {
+    .app-sidebar.collapsed .sidebar-footer,
+    .app-sidebar.collapsed .brand-identity {
         display: none;
     }
 
     .app-sidebar.collapsed .sidebar-header {
         justify-content: center;
         padding: 0;
-    }
-
-    .app-sidebar.collapsed .brand-identity {
-        display: none;
     }
 
     .app-sidebar.collapsed .nav-item {
@@ -1184,7 +1168,7 @@ button {
 }
 
 /* ==========================================================================
-   9. HOVER SAFETY FOR TOUCH DEVICES (@media (hover: hover))
+   9. HOVER SAFETY FOR TOUCH DEVICES
    ========================================================================== */
 @media (hover: hover) {
     .icon-btn:hover {
