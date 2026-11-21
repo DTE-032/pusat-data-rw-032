@@ -774,13 +774,14 @@ button {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1200;
+    z-index: 9999;
     background: rgba(2, 6, 23, 0.85);
     backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
     padding: var(--space-sm);
+    pointer-events: auto;
 }
 
 .modal-overlay.show {
@@ -789,7 +790,7 @@ button {
 
 .modal-container {
     position: relative;
-    z-index: 1201;
+    z-index: 10000;
     width: 100%;
     max-width: 860px;
     max-height: 90dvh;
@@ -800,6 +801,7 @@ button {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    pointer-events: auto;
 }
 
 .modal-header {
@@ -987,11 +989,12 @@ button {
 
 .modal-footer {
     position: relative;
-    z-index: 1202;
+    z-index: 10001;
     padding: var(--space-md) var(--space-lg);
     border-top: 1px solid var(--border-subtle);
     background: var(--bg-surface);
     flex-shrink: 0;
+    pointer-events: auto;
 }
 
 .badge-pill {
@@ -1045,6 +1048,12 @@ button {
     gap: 0.5rem;
     transition: all 0.2s ease;
     cursor: pointer;
+    position: relative;
+    pointer-events: auto;
+}
+
+.btn-primary *, .btn-secondary * {
+    pointer-events: none;
 }
 
 .btn-primary {
