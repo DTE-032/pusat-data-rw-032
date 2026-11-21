@@ -4,15 +4,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inisialisasi Ikon Lucide
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
-
-    // 2. Elemen DOM Utama
     const htmlEl = document.documentElement;
     const themeToggleBtn = document.getElementById('themeToggleBtn');
-    
+
     // Sidebar & Mobile Drawer
     const appSidebar = document.getElementById('appSidebar');
     const drawerOverlay = document.getElementById('drawerOverlay');
@@ -28,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('headerDisclaimerBtn'),
         document.getElementById('footerDisclaimerLink'),
         document.getElementById('mobilePolicyBtn')
-    ];
+    ].filter(Boolean);
 
     // Filtering & Search
     const searchInput = document.getElementById('searchInput');
@@ -41,15 +35,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let currentSearchQuery = '';
 
+    // Helper aman untuk storage (menghindari error di mode privat/restricted)
+    const storage = {
+        get(key) {
+            try {
+                return window.localStorage.getItem(key);
+            } catch (_) {
+                return null;
+            }
+        },
+        set(key, value) {
+            try {
+                window.localStorage.setItem(key, value);
+            } catch (_) {
+                // Abaikan jika penyimpanan diblokir peramban
+            }
+        }
+    };
+
+    // Render ikon Lucide secara aman tanpa menghentikan event listener
+    const renderIcons = () => {
+        try {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
+            }
+        } catch (err) {
+            console.warn('Lucide icons gagal dirender:', err);
+        }
+    };
+
+    renderIcons();
+
     /* ======================================================================
-       A. THEME SWITCHER (DARK / LIGHT MODE + SYSTEM PREFERENCE)
+       A. THEME SWITCHER
        ====================================================================== */
     const initTheme = () => {
-        const savedTheme = localStorage.getItem('rw032_theme');
-        if (savedTheme) {
+        const savedTheme = storage.get('rw032_theme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
             htmlEl.setAttribute('data-theme', savedTheme);
         } else {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
             htmlEl.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
         }
     };
@@ -58,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const current = htmlEl.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         htmlEl.setAttribute('data-theme', next);
-        localStorage.setItem('rw032_theme', next);
+        storage.set('rw032_theme', next);
     });
 
     initTheme();
@@ -66,34 +91,46 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ======================================================================
        B. DISCLAIMER MODAL MANAGEMENT
        ====================================================================== */
+    const isDisclaimerAccepted = () => storage.get('rw032_disclaimer_accepted') === 'true';
+
     const openModal = () => {
+        if (!disclaimerModal) return;
         disclaimerModal.classList.add('show');
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('modal-open');
         closeMobileDrawer();
     };
 
     const closeModal = () => {
+        if (!disclaimerModal) return;
         disclaimerModal.classList.remove('show');
+        document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
     };
 
-    // Tampilkan otomatis jika pengguna belum menyetujui
-    if (!localStorage.getItem('rw032_disclaimer_accepted')) {
+    if (!isDisclaimerAccepted()) {
         openModal();
     }
 
-    acceptDisclaimerBtn?.addEventListener('click', () => {
-        localStorage.setItem('rw032_disclaimer_accepted', 'true');
-        closeModal();
+    // Event delegation pada dokumen agar klik pada tombol maupun SVG/teks di dalamnya selalu terbaca
+    document.addEventListener('click', (e) => {
+        const acceptTarget = e.target.closest('#acceptDisclaimerBtn');
+        if (acceptTarget) {
+            e.preventDefault();
+            e.stopPropagation();
+            storage.set('rw032_disclaimer_accepted', 'true');
+            closeModal();
+        }
     });
 
     openDisclaimerTriggers.forEach(btn => {
-        btn?.addEventListener('click', openModal);
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
     });
 
-    // Tutup modal saat klik area luar atau menekan tombol Escape
     disclaimerModal?.addEventListener('click', (e) => {
-        if (e.target === disclaimerModal && localStorage.getItem('rw032_disclaimer_accepted')) {
+        if (e.target === disclaimerModal && isDisclaimerAccepted()) {
             closeModal();
         }
     });
@@ -101,25 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeMobileDrawer();
-            if (disclaimerModal.classList.contains('show') && localStorage.getItem('rw032_disclaimer_accepted')) {
+            if (disclaimerModal?.classList.contains('show') && isDisclaimerAccepted()) {
                 closeModal();
             }
         }
     });
 
     /* ======================================================================
-       C. SIDEBAR (DESKTOP COLLAPSE) & OFF-CANVAS DRAWER (MOBILE)
+       C. SIDEBAR & OFF-CANVAS DRAWER
        ====================================================================== */
     const openMobileDrawer = () => {
-        appSidebar.classList.add('open');
-        drawerOverlay.classList.add('show');
-        document.body.style.overflow = 'hidden';
+        appSidebar?.classList.add('open');
+        drawerOverlay?.classList.add('show');
+        document.body.classList.add('modal-open');
     };
 
     const closeMobileDrawer = () => {
-        appSidebar.classList.remove('open');
-        drawerOverlay.classList.remove('show');
-        if (!disclaimerModal.classList.contains('show')) {
+        appSidebar?.classList.remove('open');
+        drawerOverlay?.classList.remove('show');
+        if (!disclaimerModal?.classList.contains('show')) {
+            document.body.classList.remove('modal-open');
             document.body.style.overflow = '';
         }
     };
@@ -129,10 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerOverlay?.addEventListener('click', closeMobileDrawer);
 
     sidebarCollapseBtn?.addEventListener('click', () => {
-        appSidebar.classList.toggle('collapsed');
+        appSidebar?.classList.toggle('collapsed');
     });
 
-    // Bersihkan state drawer saat berpindah ke layar desktop
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768) {
             closeMobileDrawer();
@@ -145,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.dir-card-header').forEach(header => {
         header.addEventListener('click', () => {
             const card = header.closest('.dir-card');
+            if (!card) return;
             const isOpen = card.classList.toggle('is-open');
             header.setAttribute('aria-expanded', String(isOpen));
         });
@@ -154,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
        E. FILTER KATEGORI & PENCARIAN REAL-TIME
        ====================================================================== */
     const syncNavigationActiveState = (filterValue) => {
-        // Sinkronisasi Sidebar, Filter Chips, dan Bottom Navigation
         document.querySelectorAll('[data-filter]').forEach(el => {
             const isMatch = el.getAttribute('data-filter') === filterValue;
             el.classList.toggle('active', isMatch);
@@ -177,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (matchesCategory && matchesSearch) {
                 card.classList.remove('hidden');
-                // Otomatis buka akordeon saat sedang mencari agar hasil langsung terlihat
                 if (query !== '') {
                     card.classList.add('is-open');
                     card.querySelector('.dir-card-header')?.setAttribute('aria-expanded', 'true');
@@ -188,44 +224,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        emptyState.classList.toggle('hidden', visibleCount > 0);
+        emptyState?.classList.toggle('hidden', visibleCount > 0);
     };
 
-    // Event listener untuk semua tombol filter (Sidebar, Chips, Bottom Nav)
     document.querySelectorAll('[data-filter]').forEach(btn => {
         btn.addEventListener('click', () => {
-            currentFilter = btn.getAttribute('data-filter');
+            currentFilter = btn.getAttribute('data-filter') || 'all';
             syncNavigationActiveState(currentFilter);
             applyFilters();
             closeMobileDrawer();
         });
     });
 
-    // Input Pencarian
     searchInput?.addEventListener('input', (e) => {
         currentSearchQuery = e.target.value;
-        clearSearchBtn.classList.toggle('hidden', currentSearchQuery === '');
+        clearSearchBtn?.classList.toggle('hidden', currentSearchQuery === '');
         applyFilters();
     });
 
     clearSearchBtn?.addEventListener('click', () => {
-        searchInput.value = '';
+        if (searchInput) searchInput.value = '';
         currentSearchQuery = '';
         clearSearchBtn.classList.add('hidden');
-        searchInput.focus();
+        searchInput?.focus();
         applyFilters();
     });
 
     resetFilterBtn?.addEventListener('click', () => {
-        searchInput.value = '';
+        if (searchInput) searchInput.value = '';
         currentSearchQuery = '';
         currentFilter = 'all';
-        clearSearchBtn.classList.add('hidden');
+        clearSearchBtn?.classList.add('hidden');
         syncNavigationActiveState('all');
         applyFilters();
     });
 
-    // Tombol Cari pada Bottom Bar Mobile
     mobileSearchFocusBtn?.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => searchInput?.focus(), 300);
