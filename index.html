@@ -1,121 +1,451 @@
-<section class="directory-grid" id="directoryGrid" aria-label="Daftar Direktori Pusat Data">
-    <!-- Card 1 -->
-    <article class="dir-card" data-category="kependudukan" style="--card-accent: var(--accent-teal);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="users"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Kependudukan</span>
-                <h3>Data Kependudukan</h3>
-                <p>3 tautan berkas tersedia</p>
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0B1120">
+    <title>Pusat Data RW 032 — Sistem Informasi Terintegrasi</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Modal Kebijakan & Disclaimer Privasi Data -->
+    <div id="disclaimerModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="badge-pill badge-teal">
+                    <span class="pulse-dot"></span>
+                    <span>Dokumen Resmi Tata Kelola Data</span>
+                </div>
+                <h2 id="modalTitle">Disclaimer &amp; Ketentuan Pengelolaan Data Warga</h2>
+                <p class="modal-subtitle">Divisi Media &amp; IT <strong>RW 032 Taman Elok</strong></p>
             </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <ul class="dir-links">
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Rekapitulasi Warga</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Demografi &amp; Statistik</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Data Kelahiran &amp; Kematian</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-            </ul>
-        </div>
-    </article>
 
-    <!-- Card 2 -->
-    <article class="dir-card" data-category="kependudukan" style="--card-accent: var(--accent-indigo);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="network"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Wilayah RT 01 – 06</span>
-                <h3>Direktori Data RT</h3>
-                <p>6 folder wilayah terpisah</p>
-            </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <div class="rt-grid-links">
-                <a href="https://drive.google.com/drive/folders/1iHUO-5WDXQkRh3bCxkBW4l5vG_aVjYXj?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 01</span><i data-lucide="arrow-up-right"></i></a>
-                <a href="https://drive.google.com/drive/folders/1cuVXFJU9vvg3U---xJOw5cC2nsL5Vpja?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 02</span><i data-lucide="arrow-up-right"></i></a>
-                <a href="https://drive.google.com/drive/folders/1FFaRcvEJZmi49x6blSCLJqzBr6PhgP7Z?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 03</span><i data-lucide="arrow-up-right"></i></a>
-                <a href="https://drive.google.com/drive/folders/1W0ODs1PubRYAY2cOdSHC8Ua0DxaU8CN4?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 04</span><i data-lucide="arrow-up-right"></i></a>
-                <a href="https://drive.google.com/drive/folders/1gdtVUs673P3t3RHuEz3ZfsnG1OCIbjUi?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 05</span><i data-lucide="arrow-up-right"></i></a>
-                <a href="https://drive.google.com/drive/folders/1Cio3O8qBAPFQfKonUq4-in68lr57lxhW?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 06</span><i data-lucide="arrow-up-right"></i></a>
-            </div>
-        </div>
-    </article>
+            <div class="modal-body">
+                <div class="security-banner">
+                    <div class="security-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <div>
+                        <h3>Sistem Proteksi Keamanan &amp; Manajemen Privasi Terpadu</h3>
+                        <p>Seluruh direktori terhubung dengan repositori cloud resmi terenkripsi milik pengurus RW 032.</p>
+                    </div>
+                </div>
 
-    <!-- Card 3 -->
-    <article class="dir-card" data-category="keuangan" style="--card-accent: var(--accent-amber);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="wallet"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Transparansi Kas</span>
-                <h3>Keuangan Terpusat</h3>
-                <p>3 laporan &amp; dashboard aktif</p>
-            </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <ul class="dir-links">
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Laporan Kas RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Dashboard Keuangan RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://sites.google.com/view/iwaf-rw-032/" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Dashboard Keuangan IWAF</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-            </ul>
-        </div>
-    </article>
+                <article class="policy-card">
+                    <div class="policy-header">
+                        <div class="icon-box icon-teal"><i data-lucide="lock"></i></div>
+                        <h3>1. Komitmen Perlindungan Data Pribadi</h3>
+                    </div>
+                    <p>
+                        Divisi Media &amp; IT RW 032 berkomitmen penuh untuk menjaga privasi, keamanan, dan kerahasiaan data warga dalam setiap proses digitalisasi. Seluruh sistem pendataan resmi <strong>hanya mengumpulkan data umum</strong> yang relevan untuk pelayanan administrasi publik, penyebaran informasi, dan pengelolaan kegiatan kemasyarakatan di tingkat RW.
+                    </p>
+                </article>
 
-    <!-- Card 4 -->
-    <article class="dir-card" data-category="administrasi" style="--card-accent: var(--accent-sky);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="folder-open"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Kesekretariatan</span>
-                <h3>Administrasi &amp; Arsip</h3>
-                <p>2 repositori surat &amp; notulensi</p>
-            </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <ul class="dir-links">
-                <li><a href="https://drive.google.com/drive/folders/1kMpe9X0BreoKo5tis5WnmFC9E1gOsUNm?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Arsip Surat</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1WDpfpnekuH5oihKHd2l0RnBbSvBXqqz8" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Notulensi Rapat RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-            </ul>
-        </div>
-    </article>
+                <article class="policy-card policy-warning">
+                    <div class="policy-header">
+                        <div class="icon-box icon-amber"><i data-lucide="alert-triangle"></i></div>
+                        <h3>2. Pembatasan Pengumpulan Data Sensitif</h3>
+                    </div>
+                    <span class="badge-pill badge-amber">Penting Untuk Diperhatikan</span>
+                    <ul class="policy-list">
+                        <li>
+                            <i data-lucide="x-circle" class="text-amber"></i>
+                            <div>
+                                <strong>Tidak Pernah Meminta NIK &amp; Nomor KK</strong>
+                                <p>Divisi Media &amp; IT RW 032 tidak pernah memprogramkan, meminta, atau mengumpulkan data finansial maupun kependudukan sensitif seperti Nomor Induk Kependudukan (NIK) dan Nomor Kartu Keluarga (KK).</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i data-lucide="check-circle-2" class="text-teal"></i>
+                            <div>
+                                <strong>Bebas Formulir Data Spesifik</strong>
+                                <p>Instrumen pendataan resmi dari Divisi Media &amp; IT RW 032 bebas dari pengisian NIK dan Nomor KK.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
 
-    <!-- Card 5 -->
-    <article class="dir-card" data-category="agenda" style="--card-accent: var(--accent-emerald);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="calendar-check"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Jadwal &amp; Acara</span>
-                <h3>Agenda Kegiatan</h3>
-                <p>2 kalender &amp; jadwal terpadu</p>
-            </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <ul class="dir-links">
-                <li><a href="https://calendar.google.com/calendar/u/0/r/day/2026/9/13?pli=1" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Kalender Acara</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Jadwal Rapat</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-            </ul>
-        </div>
-    </article>
+                <article class="policy-card">
+                    <div class="policy-header">
+                        <div class="icon-box icon-red"><i data-lucide="scale"></i></div>
+                        <h3>3. Batas Tanggung Jawab</h3>
+                    </div>
+                    <p>
+                        Apabila terdapat pihak Pengurus RT atau pihak manapun yang secara mandiri mengumpulkan maupun mengunggah data NIK dan/atau Nomor KK ke media apa pun, tindakan tersebut sepenuhnya berada <strong>di luar instruksi, prosedur, dan sistem resmi</strong> Divisi Media &amp; IT RW 032 serta dibebaskan dari segala konsekuensi hukum maupun risiko kebocoran data yang timbul.
+                    </p>
+                </article>
 
-    <!-- Card 6 -->
-    <article class="dir-card" data-category="keuangan" style="--card-accent: var(--accent-violet);">
-        <button type="button" class="dir-card-header" aria-expanded="false">
-            <div class="dir-icon"><i data-lucide="pie-chart"></i></div>
-            <div class="dir-meta">
-                <span class="dir-tag">Evaluasi Data</span>
-                <h3>Laporan &amp; Analitik</h3>
-                <p>2 dokumen analitik tersedia</p>
+                <article class="policy-card">
+                    <div class="policy-header">
+                        <div class="icon-box icon-teal"><i data-lucide="landmark"></i></div>
+                        <h3>4. Landasan Hukum Berlaku</h3>
+                    </div>
+                    <div class="legal-grid">
+                        <div class="legal-item">
+                            <span class="legal-tag">01</span>
+                            <h4>UU No. 27 Tahun 2022 (UU PDP)</h4>
+                            <p>Pemisahan data pribadi spesifik dan umum (Pasal 4) serta pemrosesan data terbatas dan proporsional (Pasal 16 &amp; 20).</p>
+                        </div>
+                        <div class="legal-item">
+                            <span class="legal-tag">02</span>
+                            <h4>UU ITE No. 1 Tahun 2024</h4>
+                            <p>Menjunjung prinsip kepastian hukum, kehati-hatian, dan iktikad baik dalam tata kelola informasi elektronik.</p>
+                        </div>
+                        <div class="legal-item">
+                            <span class="legal-tag">03</span>
+                            <h4>PP Nomor 71 Tahun 2019</h4>
+                            <p>Penyelenggaraan sistem elektronik secara andal, aman, serta bertanggung jawab kepada masyarakat.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="policy-card">
+                    <div class="policy-header">
+                        <div class="icon-box icon-teal"><i data-lucide="megaphone"></i></div>
+                        <h3>5. Himbauan Pengurus RT &amp; Warga</h3>
+                    </div>
+                    <div class="appeal-split">
+                        <div class="appeal-box">
+                            <span class="badge-pill badge-teal">Untuk Pengurus RT</span>
+                            <p>Dilarang mencantumkan atau mengunggah data NIK dan Nomor KK pada formulir digital maupun folder umum RW guna menghindari penyalahgunaan data spesifik.</p>
+                        </div>
+                        <div class="appeal-box">
+                            <span class="badge-pill badge-amber">Untuk Warga RW 032</span>
+                            <p>Segera laporkan kepada Pengurus RW 032 apabila terdapat pihak yang meminta informasi NIK atau KK mengatasnamakan Divisi Media &amp; IT RW 032.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="modal-location-meta">
+                    <p><i data-lucide="map-pin"></i> Ditetapkan di: <strong>RW 032 Taman Elok</strong>, Kel. Bahagia, Kec. Babelan, Kab. Bekasi</p>
+                </div>
             </div>
-            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
-        </button>
-        <div class="dir-card-body">
-            <ul class="dir-links">
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Laporan Kependudukan</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-                <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Analisis Data Warga</span><i data-lucide="external-link" class="link-ext"></i></a></li>
-            </ul>
+
+            <div class="modal-footer">
+                <button type="button" id="acceptDisclaimerBtn" class="btn-primary btn-block">
+                    <i data-lucide="check"></i>
+                    <span>Saya Mengerti &amp; Setuju</span>
+                </button>
+            </div>
         </div>
-    </article>
-</section>
+    </div>
+
+    <!-- Off-Canvas Drawer Overlay (Mobile) -->
+    <div id="drawerOverlay" class="drawer-overlay" aria-hidden="true"></div>
+
+    <!-- App Shell Wrapper -->
+    <div class="app-shell">
+        <aside id="appSidebar" class="app-sidebar" aria-label="Navigasi Utama">
+            <div class="sidebar-header">
+                <div class="brand-identity">
+                    <div class="brand-logo">
+                        <i data-lucide="database"></i>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">Pusat Data RW 032</span>
+                        <span class="brand-sub">Taman Elok • Terintegrasi</span>
+                    </div>
+                </div>
+                <button type="button" id="sidebarCollapseBtn" class="icon-btn desktop-only" aria-label="Ciutkan Sidebar" title="Ciutkan/Perluas Menu">
+                    <i data-lucide="panel-left-close"></i>
+                </button>
+                <button type="button" id="drawerCloseBtn" class="icon-btn mobile-only" aria-label="Tutup Menu">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-group-label">Menu Utama</div>
+                <button type="button" class="nav-item active" data-filter="all">
+                    <i data-lucide="layout-grid"></i>
+                    <span>Semua Direktori</span>
+                </button>
+                <button type="button" class="nav-item" data-filter="kependudukan">
+                    <i data-lucide="users"></i>
+                    <span>Kependudukan &amp; RT</span>
+                </button>
+                <button type="button" class="nav-item" data-filter="administrasi">
+                    <i data-lucide="folder-archive"></i>
+                    <span>Administrasi &amp; Arsip</span>
+                </button>
+                <button type="button" class="nav-item" data-filter="keuangan">
+                    <i data-lucide="wallet"></i>
+                    <span>Keuangan &amp; Analitik</span>
+                </button>
+                <button type="button" class="nav-item" data-filter="agenda">
+                    <i data-lucide="calendar-days"></i>
+                    <span>Agenda Kegiatan</span>
+                </button>
+
+                <div class="nav-group-label">Tata Kelola &amp; Sistem</div>
+                <button type="button" id="openDisclaimerBtn" class="nav-item">
+                    <i data-lucide="shield-alert"></i>
+                    <span>Kebijakan Privasi Data</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-card">
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        <span>Server Sinkronisasi Aktif</span>
+                    </div>
+                    <p class="status-meta">Divisi Media &amp; IT RW 032</p>
+                </div>
+            </div>
+        </aside>
+
+        <div class="app-main-wrapper">
+            <header class="app-header">
+                <div class="header-left">
+                    <button type="button" id="drawerOpenBtn" class="icon-btn mobile-only" aria-label="Buka Menu Navigasi">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="header-title-group">
+                        <h1>Pusat Data RW 032</h1>
+                        <p class="header-subtitle">Sistem Informasi Terintegrasi Warga &amp; Pengurus</p>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input 
+                            type="search" 
+                            id="searchInput" 
+                            placeholder="Cari berkas, arsip, atau data RT..." 
+                            aria-label="Cari direktori data"
+                        >
+                        <button type="button" id="clearSearchBtn" class="clear-search hidden" aria-label="Hapus pencarian">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <button type="button" id="headerDisclaimerBtn" class="icon-btn" aria-label="Lihat Ketentuan Privasi" title="Ketentuan Pengelolaan Data">
+                        <i data-lucide="shield-check"></i>
+                    </button>
+
+                    <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="Ubah Tema Tampilan" title="Ubah Mode Terang/Gelap">
+                        <i data-lucide="sun" class="icon-sun"></i>
+                        <i data-lucide="moon" class="icon-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="app-content" id="mainContent">
+                <section class="hero-summary" aria-label="Ringkasan Sistem">
+                    <div class="hero-info">
+                        <div class="badge-pill badge-teal">
+                            <i data-lucide="check-circle"></i>
+                            <span>Terverifikasi Divisi Media &amp; IT RW 032</span>
+                        </div>
+                        <h2>Direktori Portal Layanan &amp; Arsip Digital</h2>
+                        <p>Akses terpusat dokumen administrasi, rekapitulasi kependudukan, transparansi kas RW/IWAF, serta direktori khusus RT 01 hingga RT 06.</p>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-pill">
+                            <span class="stat-value">6</span>
+                            <span class="stat-label">Kategori Utama</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="stat-value">6 RT</span>
+                            <span class="stat-label">Direktori Wilayah</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="stat-value">18</span>
+                            <span class="stat-label">Tautan Repositori</span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="filter-bar" role="tablist" aria-label="Filter Kategori Direktori">
+                    <button type="button" class="filter-chip active" role="tab" aria-selected="true" data-filter="all">Semua (6)</button>
+                    <button type="button" class="filter-chip" role="tab" aria-selected="false" data-filter="kependudukan">Kependudukan &amp; RT</button>
+                    <button type="button" class="filter-chip" role="tab" aria-selected="false" data-filter="administrasi">Administrasi &amp; Arsip</button>
+                    <button type="button" class="filter-chip" role="tab" aria-selected="false" data-filter="keuangan">Keuangan &amp; Analitik</button>
+                    <button type="button" class="filter-chip" role="tab" aria-selected="false" data-filter="agenda">Agenda Kegiatan</button>
+                </div>
+
+                <div id="emptyState" class="empty-state hidden">
+                    <div class="empty-icon"><i data-lucide="folder-search"></i></div>
+                    <h3>Direktori Tidak Ditemukan</h3>
+                    <p>Tidak ada berkas atau kategori yang cocok dengan kata kunci pencarian Anda.</p>
+                    <button type="button" id="resetFilterBtn" class="btn-secondary">Tampilkan Semua Direktori</button>
+                </div>
+
+                <!-- Grid Direktori (Default Tertutup / Collapsed) -->
+                <section class="directory-grid" id="directoryGrid" aria-label="Daftar Direktori Pusat Data">
+                    
+                    <!-- Card 1: Data Kependudukan -->
+                    <article class="dir-card" data-category="kependudukan" style="--card-accent: var(--accent-teal);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-1">
+                            <div class="dir-icon"><i data-lucide="users"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Kependudukan</span>
+                                <h3>Data Kependudukan</h3>
+                                <p>3 tautan berkas tersedia</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-1">
+                            <div class="dir-card-inner">
+                                <ul class="dir-links">
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Rekapitulasi Warga</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Demografi &amp; Statistik</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Data Kelahiran &amp; Kematian</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2: Direktori Data RT -->
+                    <article class="dir-card" data-category="kependudukan" style="--card-accent: var(--accent-indigo);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-2">
+                            <div class="dir-icon"><i data-lucide="network"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Wilayah RT 01 – 06</span>
+                                <h3>Direktori Data RT</h3>
+                                <p>6 folder wilayah terpisah</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-2">
+                            <div class="dir-card-inner">
+                                <div class="rt-grid-links">
+                                    <a href="https://drive.google.com/drive/folders/1iHUO-5WDXQkRh3bCxkBW4l5vG_aVjYXj?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 01</span><i data-lucide="arrow-up-right"></i></a>
+                                    <a href="https://drive.google.com/drive/folders/1cuVXFJU9vvg3U---xJOw5cC2nsL5Vpja?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 02</span><i data-lucide="arrow-up-right"></i></a>
+                                    <a href="https://drive.google.com/drive/folders/1FFaRcvEJZmi49x6blSCLJqzBr6PhgP7Z?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 03</span><i data-lucide="arrow-up-right"></i></a>
+                                    <a href="https://drive.google.com/drive/folders/1W0ODs1PubRYAY2cOdSHC8Ua0DxaU8CN4?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 04</span><i data-lucide="arrow-up-right"></i></a>
+                                    <a href="https://drive.google.com/drive/folders/1gdtVUs673P3t3RHuEz3ZfsnG1OCIbjUi?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 05</span><i data-lucide="arrow-up-right"></i></a>
+                                    <a href="https://drive.google.com/drive/folders/1Cio3O8qBAPFQfKonUq4-in68lr57lxhW?usp=drive_link" target="_blank" rel="noopener noreferrer" class="rt-pill"><span>RT 06</span><i data-lucide="arrow-up-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3: Keuangan Terpusat -->
+                    <article class="dir-card" data-category="keuangan" style="--card-accent: var(--accent-amber);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-3">
+                            <div class="dir-icon"><i data-lucide="wallet"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Transparansi Kas</span>
+                                <h3>Keuangan Terpusat</h3>
+                                <p>3 laporan &amp; dashboard aktif</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-3">
+                            <div class="dir-card-inner">
+                                <ul class="dir-links">
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Laporan Kas RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Dashboard Keuangan RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://sites.google.com/view/iwaf-rw-032/" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Dashboard Keuangan IWAF</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4: Administrasi & Arsip -->
+                    <article class="dir-card" data-category="administrasi" style="--card-accent: var(--accent-sky);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-4">
+                            <div class="dir-icon"><i data-lucide="folder-open"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Kesekretariatan</span>
+                                <h3>Administrasi &amp; Arsip</h3>
+                                <p>2 repositori surat &amp; notulensi</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-4">
+                            <div class="dir-card-inner">
+                                <ul class="dir-links">
+                                    <li><a href="https://drive.google.com/drive/folders/1kMpe9X0BreoKo5tis5WnmFC9E1gOsUNm?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Arsip Surat</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1WDpfpnekuH5oihKHd2l0RnBbSvBXqqz8" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Notulensi Rapat RW</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 5: Agenda Kegiatan -->
+                    <article class="dir-card" data-category="agenda" style="--card-accent: var(--accent-emerald);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-5">
+                            <div class="dir-icon"><i data-lucide="calendar-check"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Jadwal &amp; Acara</span>
+                                <h3>Agenda Kegiatan</h3>
+                                <p>2 kalender &amp; jadwal terpadu</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-5">
+                            <div class="dir-card-inner">
+                                <ul class="dir-links">
+                                    <li><a href="https://calendar.google.com/calendar/u/0/r/day/2026/9/13?pli=1" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Kalender Acara</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Jadwal Rapat</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 6: Laporan & Analitik -->
+                    <article class="dir-card" data-category="keuangan" style="--card-accent: var(--accent-violet);">
+                        <button type="button" class="dir-card-header" aria-expanded="false" aria-controls="card-body-6">
+                            <div class="dir-icon"><i data-lucide="pie-chart"></i></div>
+                            <div class="dir-meta">
+                                <span class="dir-tag">Evaluasi Data</span>
+                                <h3>Laporan &amp; Analitik</h3>
+                                <p>2 dokumen analitik tersedia</p>
+                            </div>
+                            <div class="dir-chevron"><i data-lucide="chevron-down"></i></div>
+                        </button>
+                        <div class="dir-card-body" id="card-body-6">
+                            <div class="dir-card-inner">
+                                <ul class="dir-links">
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Laporan Kependudukan</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1Qr1-SF3AFkMeObVvNGaiQ2tiO1jftny-?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="link-dot"></span><span class="link-title">Analisis Data Warga</span><i data-lucide="external-link" class="link-ext"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+            </main>
+
+            <footer class="app-footer">
+                <p>&copy; 2026 <strong>Divisi Media &amp; IT RW 032 Taman Elok</strong> — Kelurahan Bahagia, Babelan, Kab. Bekasi.</p>
+                <button type="button" id="footerDisclaimerLink" class="link-btn">Baca Ketentuan Perlindungan Data</button>
+            </footer>
+        </div>
+
+        <nav class="mobile-bottom-nav" aria-label="Navigasi Cepat Ponsel">
+            <button type="button" class="bottom-nav-item active" data-filter="all">
+                <i data-lucide="layout-grid"></i>
+                <span>Beranda</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-filter="kependudukan">
+                <i data-lucide="users"></i>
+                <span>Warga &amp; RT</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-filter="keuangan">
+                <i data-lucide="wallet"></i>
+                <span>Keuangan</span>
+            </button>
+            <button type="button" class="bottom-nav-item" id="mobileSearchFocusBtn">
+                <i data-lucide="search"></i>
+                <span>Cari</span>
+            </button>
+            <button type="button" class="bottom-nav-item" id="mobilePolicyBtn">
+                <i data-lucide="shield-check"></i>
+                <span>Privasi</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
